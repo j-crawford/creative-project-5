@@ -9,6 +9,7 @@
     <body ng-app='stick' ng-controller='stickCtrl'>
         <ui-view></ui-view>
         <script type="text/ng-template" id="/home.html">
+        <div id="homePage">
               <div class="page-header"> //template for the home
                 <h1>Home</h1>
               </div>
@@ -28,8 +29,10 @@
                   
                   <a href="#/fight">Fight</a>
                 </div>
+              </div>
             </script>
             <script type="text/ng-template" id="/fight.html">
+            <div id="fightPage">
               <div class="page-header"> //template for the fight
                 <h3>
                     Fight!
@@ -37,16 +40,17 @@
                 <a href="#/home">Back to Home</a>
                 <a href="#/win">Win!</a>
               </div>
-          
+              </div>
             </script>
             <script type="text/ng-template" id="/win.html">
+            <div id="winPage">
               <div class="page-header"> //template for winning
                 <h3>
                     Fight!
                 </h3>
                 <a href="#/home">Back to Home</a>
               </div>
-          
+            </div>
             </script>
     </body>
 </html>

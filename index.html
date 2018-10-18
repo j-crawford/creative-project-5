@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <script src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular.min.js"></script>
         <script src="//angular-ui.github.io/ui-router/release/angular-ui-router.js"></script>
         <script src="stick.js"></script>
 
     </head>
     <body ng-app='stick' ng-controller='stickCtrl'>
+      
         <ui-view></ui-view>
         <script type="text/ng-template" id="/home.html">
         <div id="homePage">
@@ -32,25 +34,85 @@
               </div>
             </script>
             <script type="text/ng-template" id="/fight.html">
-            <div id="fightPage">
-              <div class="page-header"> //template for the fight
-                <h3>
-                    Fight!
-                </h3>
-                <a href="#/home">Back to Home</a>
-                <a href="#/win">Win!</a>
-              </div>
+              <div id="fightPage">
+                <div class="page-header"> //template for the fight
+                  <h3>
+                      Fight!
+                  </h3>
+                  
+                  <canvas id="canvas" width="400px" height="400px">
+                    Your browser does not support HTML5 Canvas element
+                  </canvas>
+                  
+                    
+                  <button ng-click="runDraw()">fight!</button>
+                  <a href="#/home">Back to Home</a>
+                  <a href="#/win">Win!</a>
+                </div>
               </div>
             </script>
             <script type="text/ng-template" id="/win.html">
-            <div id="winPage">
-              <div class="page-header"> //template for winning
-                <h3>
-                    Fight!
-                </h3>
-                <a href="#/home">Back to Home</a>
+              <div id="winPage">
+                <div class="page-header"> //template for winning
+                  <h3>
+                      Fight!
+                  </h3>
+                  <a href="#/home">Back to Home</a>
+                </div>
               </div>
-            </div>
             </script>
+            <div>
+              <!--<canvas id="canvas" width="400px" height="400px">-->
+              <!--  Your browser does not support HTML5 Canvas element-->
+              <!--</canvas>-->
+              <script>
+                // var canvas = document.getElementById("canvas");
+                // context = canvas.getContext("2d");
+                // let timestamp = Date.now();
+                // let wave = false;
+                // draw();
+                // function draw() {
+                //   if(Date.now() < (timestamp+900)) return requestAnimationFrame(draw);
+                //   context.clearRect(0, 0, window.innerWidth, window.innerHeight);
+                //   context.beginPath();
+                //   context.fillStyle = "black"; /* #000000*/
+                //   context.arc(200, 50, 30, 0, Math.PI * 2, true);
+                //   context.fill();
+                //   context.beginPath();
+                //   context.lineWidth = 6;
+                //   context.stroke();
+                //   /*body*/
+                //   context.beginPath();
+                //   context.moveTo(200, 80);
+                //   context.lineTo(200, 180);
+                //   context.strokeStyle = "black";
+                //   context.stroke();
+                //   /*arms*/context.beginPath();
+                //   context.strokeStyle = "black";
+                //   context.moveTo(200, 100);
+                //   context.lineTo(150, 130);
+                //   if(wave) { 
+                //     context.moveTo(200, 100);
+                //     context.lineTo(250, 130);
+                //     wave = false;
+                //   }else {
+                //     context.moveTo(200, 100);
+                //     context.lineTo(250, 70);
+                //     wave = true;
+                //   }
+                //   context.stroke();
+                //   /*legs*/
+                //   context.beginPath();
+                //   context.strokeStyle = "black";
+                //   context.moveTo(200, 180);
+                //   context.lineTo(150, 280);
+                //   context.moveTo(200, 180);
+                //   context.lineTo(250, 280);
+                //   context.stroke();
+                //   timestamp = Date.now();
+                //   requestAnimationFrame(draw);
+                // }; console.log("yeah!")
+              </script>
+            </div>
     </body>
 </html>

@@ -1,0 +1,38 @@
+div h1 {
+    font-family: 'Impact';
+    font-size: 72px;
+    letter-spacing: 5px;
+    color: #ffffff;
+    text-shadow: 5px 5px #000000;
+}
+
+body {
+    font-family: 'Verdana'; 
+    background-color: #cc0000;
+    color: #ffffff;
+}
+
+a:link, a:visited {
+    background-color: #f44336;
+    color: white;
+    padding: 14px 25px;
+    text-align: center; 
+    text-decoration: none;
+    display: inline-block;
+    border-radius: 20px;
+}
+
+a:hover, a:active {
+    background-color: red;
+}
+
+#fightPage {
+    
+
+
+}
+
+#winPage {
+    
+    
+}

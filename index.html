@@ -4,6 +4,7 @@
         <script src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular.min.js"></script>
         <script src="//angular-ui.github.io/ui-router/release/angular-ui-router.js"></script>
+        <link rel="stylesheet" href="style.css">
         <script src="stick.js"></script>
 
     </head>
@@ -11,9 +12,9 @@
       
         <ui-view></ui-view>
         <script type="text/ng-template" id="/home.html">
-        <div id="homePage">
+        <div id="homePage" align="center">
               <div class="page-header"> //template for the home
-                <h1>Home</h1>
+                <h1>Stick Battle! Home Page</h1>
               </div>
                 <div ng-repeat="player in players">
                     <form name='userForm' ng-submit='updatePlayer(userForm,player)'> 
@@ -21,7 +22,7 @@
                       <input placeholder='Name' ng-model='userForm.name'/> 
                       <input placeholder='color' ng-model='userForm.color'/>
                       
-                      <button type='submit'>Add New</button>
+                      <button type='submit'>Add New Player</button>
                       
                       
                     </form>
@@ -34,7 +35,9 @@
               </div>
             </script>
             <script type="text/ng-template" id="/fight.html">
+            
               <div id="fightPage">
+              
                 <div class="page-header"> //template for the fight
                   <h3>
                       Fight!
@@ -49,7 +52,9 @@
                   <a href="#/home">Back to Home</a>
                   <a href="#/win">Win!</a>
                 </div>
+                
               </div>
+              
             </script>
             <script type="text/ng-template" id="/win.html">
               <div id="winPage">

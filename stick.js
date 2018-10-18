@@ -28,10 +28,10 @@ angular.module('stick', ['ui.router'])
   function stickCtrl ($scope) {
       $scope.players=makePlayers(2);
       $scope.updatePlayer = function(playerInfo,player){
-          if(playerInfo.name !== '' && playerInfo.name !== ' '){
+          if(notEmpty(playerInfo.name)){
               player.name=playerInfo.name;
           }
-          if(playerInfo.color !== '' && playerInfo.color !== ' '){
+          if(notEmpty(playerInfo.color)){
               player.color=playerInfo.color;
           }
       }
@@ -43,6 +43,10 @@ angular.module('stick', ['ui.router'])
   
   function winCtrl ($scope) {
       
+  }
+  
+  function notEmpty(str){
+    return str != null && str != "" && str != " ";
   }
   
   function makePlayers(num){

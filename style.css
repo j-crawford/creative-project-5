@@ -27,9 +27,23 @@ a:hover, a:active {
 }
 
 #fightPage {
-    
+    background-image: url("https://twistedsifter.files.wordpress.com/2013/05/animated-gifs-of-fighting-game-backgrounds-32.gif?w=800&h=336");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    width: 2000px;
 
+}
 
+#fightButton {
+    background-color: #f44336;
+    color: white;
+    padding: 15px 25px;
+    font-size: 16px;
+    text-align: center; 
+    text-decoration: none;
+    display: inline-block;
+    border-radius: 20px;
 }
 
 #winPage {

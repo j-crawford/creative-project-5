@@ -41,17 +41,21 @@
               
                 <div class="page-header"> <!--template for the fight-->
                   <h3>
+                    <center>
                       Fight!
+                    </center>
                   </h3>
                   
                   <canvas id="canvas" width="2000px" height="400px">
                     Your browser does not support HTML5 Canvas element
                   </canvas>
                   <p>{{$parent.players[0].name}}: {{$parent.players[0].health}} {{$parent.players[1].name}}: {{$parent.players[1].health}}</p>
-                    
-                  <button ng-click="runDraw()">fight!</button>
+                  
+                  <center>  
+                  <button id="fightButton" ng-click="runDraw()">Fight!</button> 
                   <a href="#/home" onClick="$('body').off('keyup');">Back to Home</a>
                   <a id="winButton" href="#/win" onClick="declareWinner();" style="display:none;">Win!</a>
+                  </center>
                 </div>
                 
               </div>
@@ -64,6 +68,7 @@
                       Congradulations <span id="wintag"></span>! You Won!
                   </h3>
                   <a href="#/home">Back to Home</a>
+                  </center>
                 </div>
               </div>
             </script>

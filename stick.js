@@ -111,16 +111,16 @@ angular.module('stick', ['ui.router'])
             if(key==player.keys[j]){
               switch(j){
                 case 0: //up
-                  player.y-=5;
+                  player.y-=10;
                   break;
                 case 1: //down
-                  player.y+=5;
+                  player.y+=10;
                   break;
                 case 2: //left
-                  player.x-=5;
+                  player.x-=10;
                   break;
                 case 3: //right
-                  player.x+=5;
+                  player.x+=10;
                   break;
                 case 4: //punch
                   player.punch=true;
@@ -146,7 +146,7 @@ angular.module('stick', ['ui.router'])
   }
   
   function draw($scope) {
-    if(Date.now() < (timestamp+300)) return requestAnimationFrame(function(timestamp){draw($scope)});
+    if(Date.now() < (timestamp+50)) return requestAnimationFrame(function(timestamp){draw($scope)});
     context.clearRect(0, 0, window.innerWidth, window.innerHeight);
     drawPlayer($scope,0);
     drawPlayer($scope,1);
@@ -176,13 +176,17 @@ angular.module('stick', ['ui.router'])
     /*arms*/context.beginPath();
     context.strokeStyle = player.color;
     context.moveTo(basex, basey);
-    context.lineTo(basex-50, basey+30);
+    var sign=-1;
+    if($scope.players[1-index].x>player.x){
+      sign=1;
+    }
+    context.lineTo(basex-sign*50, basey+30);
     if(!player.punch) { 
       context.moveTo(basex, basey);
-      context.lineTo(basex+50, basey+30);
+      context.lineTo(basex+sign*50, basey+30);
     }else {
       context.moveTo(basex, basey);
-      context.lineTo(basex+50, basey-30);
+      context.lineTo(basex+sign*50, basey-30);
       player.punch=false;
     }
     context.stroke();

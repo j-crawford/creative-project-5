@@ -51,15 +51,17 @@
                   <canvas id="canvas" width="2000px" height="400px">
                     Your browser does not support HTML5 Canvas element
                   </canvas>
-                  <p>{{$parent.players[0].name}}: {{$parent.players[0].health}} {{$parent.players[1].name}}: {{$parent.players[1].health}}</p>
+                  
                   
                   <center>  
+                  <p class="dark">{{$parent.players[0].name}}: {{$parent.players[0].health}} {{$parent.players[1].name}}: {{$parent.players[1].health}}</p>
                   <button id="fightButton" ng-click="runDraw()">Fight!</button> 
                   <a href="#/home" onClick="$('body').off('keyup');">Back to Home</a>
                   <a id="winButton" href="#/win" onClick="declareWinner();" style="display:none;">Win!</a>
+                  
+                  <p class="dark">player 1 use w,a,s,d for up, left, down, right and v to punch</p>
+                  <p class="dark">player 2 use i,j,k,l for up, left, down, right and b to punch</p>
                   </center>
-                  <p>player 1 use w,a,s,d for up, left, down, right and v to punch</p>
-                  <p>player 2 use i,j,k,l for up, left, down, right and b to punch</p>
                 </div>
                 
               </div>

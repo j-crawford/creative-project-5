@@ -1,7 +1,7 @@
 angular.module('stick', ['ui.router'])
-  .controller('stickCtrl', stickCtrl)
-  .controller('fightCtrl',fightCtrl)
-  .controller('winCtrl',winCtrl)
+  .controller('stickCtrl', ['$scope', function($scope){stickCtrl($scope)}])
+  .controller('fightCtrl',['$scope', function($scope){fightCtrl($scope)}])
+  .controller('winCtrl',['$scope', function($scope){winCtrl($scope)}])
   .config([
       '$stateProvider',
       '$urlRouterProvider',
@@ -91,7 +91,6 @@ angular.module('stick', ['ui.router'])
       };
     });
     
-       // $('#fightPage').append();
  
 
   
@@ -100,9 +99,16 @@ angular.module('stick', ['ui.router'])
       $scope.updatePlayer = function(playerInfo,player){
           if(notEmpty(playerInfo.name)){
               player.name=playerInfo.name;
+              
+              $scope.players[player.id-1]=player;
+              playerInfo.name="";
           }
           if(notEmpty(playerInfo.color)){
               player.color=playerInfo.color;
+              console.log(player.id);
+              $scope.players[player.id-1].color=playerInfo.color;
+              
+              playerInfo.color="";
           }
       }
   }
@@ -112,6 +118,9 @@ angular.module('stick', ['ui.router'])
   function fightCtrl ($scope) {
       $scope.runDraw = function(){
         setup();
+        console.log("setup"+color1);
+        color1=$scope.players[0].color;
+        color2=$scope.players[1].color;
         draw();
       }
       
@@ -120,6 +129,8 @@ angular.module('stick', ['ui.router'])
   var canvas;
   let timestamp;
   let wave;
+  var color1="black";
+  var color2="black";
   
   function setup(){
     canvas = document.getElementById("canvas");
@@ -132,7 +143,7 @@ angular.module('stick', ['ui.router'])
     if(Date.now() < (timestamp+900)) return requestAnimationFrame(draw);
     context.clearRect(0, 0, window.innerWidth, window.innerHeight);
     context.beginPath();
-    context.fillStyle = "black"; /* #000000*/
+    context.fillStyle = color1; /* #000000*/
     context.arc(200, 50, 30, 0, Math.PI * 2, true);
     context.fill();
     context.beginPath();
@@ -142,10 +153,10 @@ angular.module('stick', ['ui.router'])
     context.beginPath();
     context.moveTo(200, 80);
     context.lineTo(200, 180);
-    context.strokeStyle = "black";
+    context.strokeStyle = color1;
     context.stroke();
     /*arms*/context.beginPath();
-    context.strokeStyle = "black";
+    context.strokeStyle = color1;
     context.moveTo(200, 100);
     context.lineTo(150, 130);
     if(wave) { 
@@ -160,7 +171,7 @@ angular.module('stick', ['ui.router'])
     context.stroke();
     /*legs*/
     context.beginPath();
-    context.strokeStyle = "black";
+    context.strokeStyle = color1;
     context.moveTo(200, 180);
     context.lineTo(150, 280);
     context.moveTo(200, 180);

@@ -8,7 +8,7 @@
         <script src="stick.js"></script>
 
     </head>
-    <body ng-app='stick' ng-controller='stickCtrl'>
+    <body ng-app='stick' ng-controller='stickCtrl as stickC'>
       
         <ui-view></ui-view>
         <script type="text/ng-template" id="/home.html">
@@ -16,13 +16,14 @@
               <div class="page-header"> //template for the home
                 <h1>Stick Battle! Home Page</h1>
               </div>
-                <div ng-repeat="player in players">
+                <div ng-repeat="player in $parent.players">
                     <form name='userForm' ng-submit='updatePlayer(userForm,player)'> 
                         {{player.name}}
                       <input placeholder='Name' ng-model='userForm.name'/> 
                       <input placeholder='color' ng-model='userForm.color'/>
                       
                       <button type='submit'>Add New Player</button>
+                      {{player.color}}
                       
                       
                     </form>

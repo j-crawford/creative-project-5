@@ -8,7 +8,7 @@
         <script src="stick.js"></script>
 
     </head>
-    <body ng-app='stick' ng-controller='stickCtrl as stickC'>
+    <body ng-app='stick' ng-controller='stickCtrl'>
       
         <ui-view></ui-view>
         <script type="text/ng-template" id="/home.html">
@@ -44,14 +44,14 @@
                       Fight!
                   </h3>
                   
-                  <canvas id="canvas" width="400px" height="400px">
+                  <canvas id="canvas" width="2000px" height="500px">
                     Your browser does not support HTML5 Canvas element
                   </canvas>
                   
                     
                   <button ng-click="runDraw()">fight!</button>
-                  <a href="#/home">Back to Home</a>
-                  <a href="#/win">Win!</a>
+                  <a href="#/home" onClick="$('body').off('keyup');">Back to Home</a>
+                  <a href="#/win" onClick="$('body').off('keyup');">Win!</a>
                 </div>
                 
               </div>

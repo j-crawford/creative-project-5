@@ -1,6 +1,6 @@
 angular.module('stick', ['ui.router'])
   .controller('stickCtrl', ['$scope', function($scope){stickCtrl($scope)}])
-  .controller('fightCtrl',['$scope', function($scope){fightCtrl($scope)}])
+  .controller('fightCtrl',['$scope', '$document', function($scope, $document){fightCtrl($scope, $document)}])
   .controller('winCtrl',['$scope', function($scope){winCtrl($scope)}])
   .config([
       '$stateProvider',
@@ -24,72 +24,7 @@ angular.module('stick', ['ui.router'])
           });
         $urlRouterProvider.otherwise('home');
     }])
-    .directive('loadscript', function() {
-      return {
-    scope: {
-    },
-    restrict: 'E', /* [2] */
-    replace: 'true',
-    template: ('<div><canvas id="canvas" width="400px" height="400px" >'+
-                    'Your browser does not support HTML5 Canvas element'+
-                  '</canvas><script>var canvas = document.getElementById("canvas");'+
-                          'context = canvas.getContext("2d");'+
-                          'let timestamp = Date.now();'+
-                          'let wave = false;'+
-                          
-                          
-                          'draw();'+
-                          'function draw() {'+
-                                'if(Date.now() < (timestamp+900)) return requestAnimationFrame(draw);'+
-                                
-                                'context.clearRect(0, 0, window.innerWidth, window.innerHeight);'+
-                                'context.beginPath();'+
-                                'context.fillStyle = "black"; /* #000000*/'+
-                                'context.arc(200, 50, 30, 0, Math.PI * 2, true);'+
-                                'context.fill();'+
-                                
-                                'context.beginPath(); '+
-                                'context.lineWidth = 6;'+
-                                'context.stroke();'+
-                                
-                                '/*body*/'+
-                                'context.beginPath();'+
-                                'context.moveTo(200, 80);'+
-                                'context.lineTo(200, 180);'+
-                                'context.strokeStyle = "black";'+
-                                'context.stroke();'+
-                                
-                                '/*arms*/'+
-                                'context.beginPath();'+
-                                'context.strokeStyle = "black";'+
-                                'context.moveTo(200, 100);'+
-                                'context.lineTo(150, 130);'+
-                                'if(wave) { '+
-                                'context.moveTo(200, 100);'+
-                                'context.lineTo(250, 130);'+
-                                'wave = false;'+
-                                '}'+
-                                'else {'+
-                                'context.moveTo(200, 100);'+
-                                'context.lineTo(250, 70);'+
-                                'wave = true;'+
-                                '}'+
-                                'context.stroke();'+
-                                
-                                '/*legs*/'+
-                                'context.beginPath();'+
-                                'context.strokeStyle = "black";'+
-                                'context.moveTo(200, 180);'+
-                                'context.lineTo(150, 280);'+
-                                'context.moveTo(200, 180);'+
-                                'context.lineTo(250, 280);'+
-                                'context.stroke();'+
-                                'timestamp = Date.now();'+
-                                'requestAnimationFrame(draw);'+
-                        '}; console.log("yeah!")'+
-                      '</script></div>')
-      };
-    });
+    
     
  
 
@@ -110,19 +45,37 @@ angular.module('stick', ['ui.router'])
               
               playerInfo.color="";
           }
-      }
+      };
+      
   }
   
   
   
-  function fightCtrl ($scope) {
+  function fightCtrl ($scope, $document) {
+    var galleryCtrl = this;
       $scope.runDraw = function(){
         setup();
         console.log("setup"+color1);
         color1=$scope.players[0].color;
         color2=$scope.players[1].color;
-        draw();
+        draw($scope);
       }
+      
+      function keyupHandler(keyEvent) {
+        console.log('keyup', keyEvent);
+        galleryCtrl.keyUp(keyEvent);
+    
+        $scope.$apply(); // remove this line if not need
+      }
+    
+      $document.on('keyup', keyupHandler);
+      $scope.$on('$destroy', function () {
+        $document.off('keyup', keyupHandler);
+      });
+      
+     galleryCtrl.keyUp = function(keyevent){
+        console.log('keyup Yeah ',keyevent);
+      };
       
   }
   
@@ -139,47 +92,55 @@ angular.module('stick', ['ui.router'])
     wave = false;
   }
   
-  function draw() {
-    if(Date.now() < (timestamp+900)) return requestAnimationFrame(draw);
+  function draw($scope) {
+    if(Date.now() < (timestamp+900)) return requestAnimationFrame(function(timestamp){draw($scope)});
     context.clearRect(0, 0, window.innerWidth, window.innerHeight);
+    drawPlayer($scope,0);
+    drawPlayer($scope,1);
+    wave= !wave;
+    timestamp = Date.now();
+    requestAnimationFrame(function(timestamp){draw($scope)});
+  }; console.log("yeah!");
+  
+  function drawPlayer($scope,index){
+    var player = $scope.players[index];
+    var basex= 200+player.x;
+    var basey= 100+player.y;
+    
     context.beginPath();
-    context.fillStyle = color1; /* #000000*/
-    context.arc(200, 50, 30, 0, Math.PI * 2, true);
+    context.fillStyle = player.color; /* #000000*/
+    context.arc(basex, basey-50, 30, 0, Math.PI * 2, true);
     context.fill();
     context.beginPath();
     context.lineWidth = 6;
     context.stroke();
     /*body*/
     context.beginPath();
-    context.moveTo(200, 80);
-    context.lineTo(200, 180);
-    context.strokeStyle = color1;
+    context.moveTo(basex, basey-20);
+    context.lineTo(basex, basey+80);
+    context.strokeStyle = player.color;
     context.stroke();
     /*arms*/context.beginPath();
-    context.strokeStyle = color1;
-    context.moveTo(200, 100);
-    context.lineTo(150, 130);
+    context.strokeStyle = player.color;
+    context.moveTo(basex, basey);
+    context.lineTo(basex-50, basey+30);
     if(wave) { 
-      context.moveTo(200, 100);
-      context.lineTo(250, 130);
-      wave = false;
+      context.moveTo(basex, basey);
+      context.lineTo(basex+50, basey+30);
     }else {
-      context.moveTo(200, 100);
-      context.lineTo(250, 70);
-      wave = true;
+      context.moveTo(basex, basey);
+      context.lineTo(basex+50, basey-30);
     }
     context.stroke();
     /*legs*/
     context.beginPath();
-    context.strokeStyle = color1;
-    context.moveTo(200, 180);
-    context.lineTo(150, 280);
-    context.moveTo(200, 180);
-    context.lineTo(250, 280);
+    context.strokeStyle = player.color;
+    context.moveTo(basex, basey+80);
+    context.lineTo(basex-50, basey+180);
+    context.moveTo(basex, basey+80);
+    context.lineTo(basex+50, basey+180);
     context.stroke();
-    timestamp = Date.now();
-    requestAnimationFrame(draw);
-  }; console.log("yeah!")
+  }
   
   function winCtrl ($scope) {
       
@@ -197,7 +158,10 @@ angular.module('stick', ['ui.router'])
           o.push({
               name: name,
               color: "black",
-              id: i
+              id: i,
+              x: 100*i,
+              y: 0,
+              keys: []
           });
       }
       return o;

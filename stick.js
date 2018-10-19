@@ -88,6 +88,10 @@ angular.module('stick', ['ui.router'])
       $scope.$on('$destroy', function () {
         $document.off('keyup', keyupHandler);
         $document.off('keydown', keydownHandler);
+        $scope.players[0].x=0;
+        $scope.players[1].x=1000;
+        $scope.players[0].y=0;
+        $scope.players[1].y=0;
       });
       
       galleryCtrl.keyUp = function(keyevent){
@@ -142,7 +146,7 @@ angular.module('stick', ['ui.router'])
   }
   
   function draw($scope) {
-    if(Date.now() < (timestamp+900)) return requestAnimationFrame(function(timestamp){draw($scope)});
+    if(Date.now() < (timestamp+300)) return requestAnimationFrame(function(timestamp){draw($scope)});
     context.clearRect(0, 0, window.innerWidth, window.innerHeight);
     drawPlayer($scope,0);
     drawPlayer($scope,1);
@@ -209,10 +213,11 @@ angular.module('stick', ['ui.router'])
               name: name,
               color: "black",
               id: i,
-              x: 100*i,
+              x: 1000*(i-1),
               y: 0,
               keys: [],
-              punch: false
+              punch: false,
+              health: 100
           });
       }
       return o;

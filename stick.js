@@ -26,13 +26,22 @@ angular.module('stick', ['ui.router'])
     }])
     
     
- 
+ var validateCssColour = function(colour){
+    var rgb = $('<div style="color:#28e32a">');     // Use a non standard dummy colour to ease checking for edge cases
+    var valid_rgb = "rgb(40, 227, 42)";
+    rgb.css("color", colour);
+    if(rgb.css('color') == valid_rgb && colour != ':#28e32a' && colour.replace(/ /g,"") != valid_rgb.replace(/ /g,""))
+        return false;
+    else
+        return true;
+};
 
   
   function stickCtrl ($scope) {
       $scope.players=makePlayers(2);
       setkeys($scope,0);
       setkeys($scope,1);
+      $scope.winner="";
       $scope.updatePlayer = function(playerInfo,player){
           if(notEmpty(playerInfo.name)){
               player.name=playerInfo.name;
@@ -41,11 +50,15 @@ angular.module('stick', ['ui.router'])
               playerInfo.name="";
           }
           if(notEmpty(playerInfo.color)){
-              player.color=playerInfo.color;
-              console.log(player.id);
-              $scope.players[player.id-1].color=playerInfo.color;
-              
-              playerInfo.color="";
+              if(validateCssColour(playerInfo.color)){
+                player.color=playerInfo.color;
+                console.log(player.id);
+                $scope.players[player.id-1].color=playerInfo.color;
+                
+                playerInfo.color="";
+              }else{
+                playerInfo.color="invalid";
+              }
           }
       };
       
@@ -92,6 +105,8 @@ angular.module('stick', ['ui.router'])
         $scope.players[1].x=1000;
         $scope.players[0].y=0;
         $scope.players[1].y=0;
+        $scope.players[0].health=100;
+        $scope.players[1].health=100;
       });
       
       galleryCtrl.keyUp = function(keyevent){
@@ -137,6 +152,11 @@ angular.module('stick', ['ui.router'])
   let wave;
   var color1="black";
   var color2="black";
+  var winner="nobody";
+  
+  function declareWinner(){
+    $('#wintag').html(winner);
+  }
   
   function setup(){
     canvas = document.getElementById("canvas");
@@ -187,6 +207,15 @@ angular.module('stick', ['ui.router'])
     }else {
       context.moveTo(basex, basey);
       context.lineTo(basex+sign*50, basey-30);
+      if(Math.abs($scope.players[1-index].x-player.x)<80 && $scope.players[1-index].y-player.y<101 && $scope.players[1-index].y-player.y>-10){
+        $scope.players[1-index].health-=1;
+        if($scope.players[1-index].health<=0){
+          winner=player.name;
+          console.log(player.name);
+          $('#winButton').click();
+        }
+        //console.log($scope.players[1-index].health);
+      }
       player.punch=false;
     }
     context.stroke();
@@ -201,7 +230,7 @@ angular.module('stick', ['ui.router'])
   }
   
   function winCtrl ($scope) {
-      
+      $scope.winner=winner;
   }
   
   function notEmpty(str){

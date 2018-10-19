@@ -13,7 +13,7 @@
         <ui-view></ui-view>
         <script type="text/ng-template" id="/home.html">
         <div id="homePage" align="center">
-              <div class="page-header"> //template for the home
+              <div class="page-header"> <!--template for the home-->
                 <h1>Stick Battle! Home Page</h1>
               </div>
                 <div ng-repeat="player in $parent.players">
@@ -39,19 +39,19 @@
             
               <div id="fightPage">
               
-                <div class="page-header"> //template for the fight
+                <div class="page-header"> <!--template for the fight-->
                   <h3>
                       Fight!
                   </h3>
                   
-                  <canvas id="canvas" width="2000px" height="500px">
+                  <canvas id="canvas" width="2000px" height="400px">
                     Your browser does not support HTML5 Canvas element
                   </canvas>
-                  
+                  <p>{{$parent.players[0].name}}: {{$parent.players[0].health}} {{$parent.players[1].name}}: {{$parent.players[1].health}}</p>
                     
                   <button ng-click="runDraw()">fight!</button>
                   <a href="#/home" onClick="$('body').off('keyup');">Back to Home</a>
-                  <a href="#/win" onClick="$('body').off('keyup');">Win!</a>
+                  <a id="winButton" href="#/win" onClick="declareWinner();" style="display:none;">Win!</a>
                 </div>
                 
               </div>
@@ -59,9 +59,9 @@
             </script>
             <script type="text/ng-template" id="/win.html">
               <div id="winPage">
-                <div class="page-header"> //template for winning
+                 <div class="page-header"> <!--template for winning-->
                   <h3>
-                      Fight!
+                      Congradulations <span id="wintag"></span>! You Won!
                   </h3>
                   <a href="#/home">Back to Home</a>
                 </div>

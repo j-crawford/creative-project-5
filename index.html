@@ -13,7 +13,7 @@
         <ui-view></ui-view>
         <script type="text/ng-template" id="/home.html">
         <div id="homePage" align="center">
-              <div class="page-header"> //template for the home
+              <div class="page-header">
                 <h1>Stick Battle! Home Page</h1>
               </div>
                 <div ng-repeat="player in $parent.players">
@@ -39,19 +39,22 @@
             
               <div id="fightPage">
               
-                <div class="page-header"> //template for the fight
+                <div class="page-header">
                   <h3>
+                    <center>
                       Fight!
+                    </center>
                   </h3>
                   
                   <canvas id="canvas" width="2000px" height="500px">
                     Your browser does not support HTML5 Canvas element
                   </canvas>
                   
-                    
-                  <button ng-click="runDraw()">fight!</button>
+                  <center>  
+                  <button id="fightButton" ng-click="runDraw()">Fight!</button>
                   <a href="#/home" onClick="$('body').off('keyup');">Back to Home</a>
                   <a href="#/win" onClick="$('body').off('keyup');">Win!</a>
+                  </center>
                 </div>
                 
               </div>
@@ -59,11 +62,15 @@
             </script>
             <script type="text/ng-template" id="/win.html">
               <div id="winPage">
-                <div class="page-header"> //template for winning
-                  <h3>
-                      Fight!
-                  </h3>
+                <div class="page-header">
+                <center>
+                  <h1>
+                      
+                      Congratulations! 
+                      
+                  </h1>
                   <a href="#/home">Back to Home</a>
+                  </center>
                 </div>
               </div>
             </script>

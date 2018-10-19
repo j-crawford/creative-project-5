@@ -31,6 +31,8 @@ angular.module('stick', ['ui.router'])
   
   function stickCtrl ($scope) {
       $scope.players=makePlayers(2);
+      setkeys($scope,0);
+      setkeys($scope,1);
       $scope.updatePlayer = function(playerInfo,player){
           if(notEmpty(playerInfo.name)){
               player.name=playerInfo.name;
@@ -49,6 +51,14 @@ angular.module('stick', ['ui.router'])
       
   }
   
+  function setkeys($scope,index){
+    var player=$scope.players[index];
+    if(index==0){
+      player.keys=['w','s','a','d','v'];
+    }else{
+      player.keys=['i','k','j','l','b'];
+    }
+  }
   
   
   function fightCtrl ($scope, $document) {
@@ -62,20 +72,59 @@ angular.module('stick', ['ui.router'])
       }
       
       function keyupHandler(keyEvent) {
-        console.log('keyup', keyEvent);
         galleryCtrl.keyUp(keyEvent);
+    
+        $scope.$apply(); // remove this line if not need
+      }
+      
+      function keydownHandler(keyEvent) {
+        galleryCtrl.keyDown(keyEvent);
     
         $scope.$apply(); // remove this line if not need
       }
     
       $document.on('keyup', keyupHandler);
+      $document.on('keydown', keydownHandler);
       $scope.$on('$destroy', function () {
         $document.off('keyup', keyupHandler);
+        $document.off('keydown', keydownHandler);
       });
       
-     galleryCtrl.keyUp = function(keyevent){
-        console.log('keyup Yeah ',keyevent);
+      galleryCtrl.keyUp = function(keyevent){
+        console.log('keyup Yeah ',keyevent.key);
+        galleryCtrl.checkkey(keyevent.key);
       };
+      
+      galleryCtrl.keyDown = function(keyevent){
+        
+      }
+      
+      galleryCtrl.checkkey = function(key){
+        var len=$scope.players.length;
+        for(var i=0;i<len;i++){
+          var player=$scope.players[i];
+          for(var j=0;j<5;j++){
+            if(key==player.keys[j]){
+              switch(j){
+                case 0: //up
+                  player.y-=5;
+                  break;
+                case 1: //down
+                  player.y+=5;
+                  break;
+                case 2: //left
+                  player.x-=5;
+                  break;
+                case 3: //right
+                  player.x+=5;
+                  break;
+                case 4: //punch
+                  player.punch=true;
+              }
+            }
+          }
+        }
+      }
       
   }
   
@@ -124,12 +173,13 @@ angular.module('stick', ['ui.router'])
     context.strokeStyle = player.color;
     context.moveTo(basex, basey);
     context.lineTo(basex-50, basey+30);
-    if(wave) { 
+    if(!player.punch) { 
       context.moveTo(basex, basey);
       context.lineTo(basex+50, basey+30);
     }else {
       context.moveTo(basex, basey);
       context.lineTo(basex+50, basey-30);
+      player.punch=false;
     }
     context.stroke();
     /*legs*/
@@ -161,7 +211,8 @@ angular.module('stick', ['ui.router'])
               id: i,
               x: 100*i,
               y: 0,
-              keys: []
+              keys: [],
+              punch: false
           });
       }
       return o;

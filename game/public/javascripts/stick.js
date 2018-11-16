@@ -154,6 +154,18 @@ angular.module('stick', ['ui.router'])
   var color2="black";
   var winner="nobody";
   
+  // no need to use save and restore between calls as it sets the transform rather 
+  // than multiply it like ctx.rotate ctx.translate ctx.scale and ctx.transform
+  // Also combining the scale and origin into the one call makes it quicker
+  // x,y position of image center
+  // scale scale of image
+  // rotation in radians.
+  function drawImage(image, x, y, scale, rotation){
+      context.setTransform(scale, 0, 0, scale, x, y); // sets scale and origin
+      context.rotate(rotation);
+      context.drawImage(image, -image.width / 2, -image.height / 2);
+  } 
+  
   function declareWinner(){
     $('#wintag').html(winner);
   }
@@ -169,7 +181,17 @@ angular.module('stick', ['ui.router'])
     if(Date.now() < (timestamp+50)) return requestAnimationFrame(function(timestamp){draw($scope)});
     context.clearRect(0, 0, window.innerWidth, window.innerHeight);
     drawPlayer($scope,0);
-    drawPlayer($scope,1);
+    drawPlayer($scope,1);// no need to use save and restore between calls as it sets the transform rather 
+// than multiply it like ctx.rotate ctx.translate ctx.scale and ctx.transform
+// Also combining the scale and origin into the one call makes it quicker
+// x,y position of image center
+// scale scale of image
+// rotation in radians.
+function drawImage(image, x, y, scale, rotation){
+    ctx.setTransform(scale, 0, 0, scale, x, y); // sets scale and origin
+    ctx.rotate(rotation);
+    ctx.drawImage(image, -image.width / 2, -image.height / 2);
+} 
     wave= !wave;
     timestamp = Date.now();
     requestAnimationFrame(function(timestamp){draw($scope)});

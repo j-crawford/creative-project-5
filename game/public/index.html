@@ -5,36 +5,33 @@
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular.min.js"></script>
         <script src="//angular-ui.github.io/ui-router/release/angular-ui-router.js"></script>
         <link rel="stylesheet" href="stylesheets/style.css">
-        <script src="javascripts/stick.js"></script>
-        <title>STICK BATTLE</title>
+        <script src="javascripts/catimages.js"></script>
+        <title>Cat Images!</title>
     </head>
-    <body ng-app='stick' ng-controller='stickCtrl'>
+    <body ng-app='cats' ng-controller='catCtrl'>
       
         <ui-view></ui-view>
-        <script type="text/ng-template" id="/home.html">
-        <div id="homePage" align="center">
+          <script type="text/ng-template" id="/home.html">
+            <div id="homePage" align="center">
               <div class="page-header"> <!--template for the home-->
-                <h1>Stick Battle! Home Page</h1>
+                <h1>Cat Images! Home Page</h1>
               </div>
-                <div ng-repeat="player in $parent.players">
-                    <form name='userForm' ng-submit='updatePlayer(userForm,player)'> 
-                        {{player.name}}
+                
+                    <form name='userForm' ng-submit='updatePlayer(userForm)'> 
+                    {{user}}
                       <input placeholder='Name' ng-model='userForm.name'/> 
-                      <input placeholder='color' ng-model='userForm.color'/>
+                      <input placeholder='user avatar' ng-model='userForm.avatar'/>
                       
-                      <button type='submit'>Add New Player</button>
-                      {{player.color}}
+                      <button type='submit'>Update Info</button>
+                      <img src='{{userimg}}' style="width:40px; height:40px;" onerror="this.src='images/meh.png'"/>
                       
                       
                     </form>
                     
-                </div>
-                <p>player 1 use w,a,s,d for up, left, down, right and v to punch</p>
-                <p>player 2 use i,j,k,l for up, left, down, right and b to punch</p>
-                <div>
-                  
-                  <a href="#/fight">Fight</a>
-                </div>
+                
+                  <br/>
+                  <a href="#/fight">Login</a>
+                
               </div>
             </script>
             <script type="text/ng-template" id="/fight.html">
@@ -44,92 +41,31 @@
                 <div class="page-header"> <!--template for the fight-->
                   <h3>
                     <center>
-                      Fight!
+                      Fight! (over how cute they are! ;) )
                     </center>
                   </h3>
                   
-                  <canvas id="canvas" width="2000px" height="400px">
-                    Your browser does not support HTML5 Canvas element
-                  </canvas>
                   
                   
-                  <center>  
-                  <p class="dark">{{$parent.players[0].name}}: {{$parent.players[0].health}} {{$parent.players[1].name}}: {{$parent.players[1].health}}</p>
-                  <button id="fightButton" ng-click="runDraw()">Fight!</button> 
-                  <a href="#/home" onClick="$('body').off('keyup');">Back to Home</a>
-                  <a id="winButton" href="#/win" onClick="declareWinner();" style="display:none;">Win!</a>
+                  <form name='userForm' ng-submit='addImage(userForm)'> 
+                        {{user}}
+                        <img src="{{userimg}}" style="width:40px; height:40px;" onerror="this.src='images/meh.png'"/>
+                      <input placeholder='cat picture' ng-model='userForm.avatar'/>
+                      
+                      <button type='submit'>add cat picture!</button>
+                      
+                      
+                      
+                  </form>
+                  <div id="comments"></div>
                   
-                  <p class="dark">player 1 use w,a,s,d for up, left, down, right and v to punch</p>
-                  <p class="dark">player 2 use i,j,k,l for up, left, down, right and b to punch</p>
-                  </center>
+                  <a href="#/home">Back to Home</a>
+                  
                 </div>
                 
               </div>
               
             </script>
-            <script type="text/ng-template" id="/win.html">
-              <div id="winPage">
-                 <div class="page-header"> <!--template for winning-->
-                  <h3>
-                      Congradulations <span id="wintag"></span>! You Won!
-                  </h3>
-                  <a href="#/home">Back to Home</a>
-                  </center>
-                </div>
-              </div>
-            </script>
-            <div>
-              <!--<canvas id="canvas" width="400px" height="400px">-->
-              <!--  Your browser does not support HTML5 Canvas element-->
-              <!--</canvas>-->
-              <script>
-                // var canvas = document.getElementById("canvas");
-                // context = canvas.getContext("2d");
-                // let timestamp = Date.now();
-                // let wave = false;
-                // draw();
-                // function draw() {
-                //   if(Date.now() < (timestamp+900)) return requestAnimationFrame(draw);
-                //   context.clearRect(0, 0, window.innerWidth, window.innerHeight);
-                //   context.beginPath();
-                //   context.fillStyle = "black"; /* #000000*/
-                //   context.arc(200, 50, 30, 0, Math.PI * 2, true);
-                //   context.fill();
-                //   context.beginPath();
-                //   context.lineWidth = 6;
-                //   context.stroke();
-                //   /*body*/
-                //   context.beginPath();
-                //   context.moveTo(200, 80);
-                //   context.lineTo(200, 180);
-                //   context.strokeStyle = "black";
-                //   context.stroke();
-                //   /*arms*/context.beginPath();
-                //   context.strokeStyle = "black";
-                //   context.moveTo(200, 100);
-                //   context.lineTo(150, 130);
-                //   if(wave) { 
-                //     context.moveTo(200, 100);
-                //     context.lineTo(250, 130);
-                //     wave = false;
-                //   }else {
-                //     context.moveTo(200, 100);
-                //     context.lineTo(250, 70);
-                //     wave = true;
-                //   }
-                //   context.stroke();
-                //   /*legs*/
-                //   context.beginPath();
-                //   context.strokeStyle = "black";
-                //   context.moveTo(200, 180);
-                //   context.lineTo(150, 280);
-                //   context.moveTo(200, 180);
-                //   context.lineTo(250, 280);
-                //   context.stroke();
-                //   timestamp = Date.now();
-                //   requestAnimationFrame(draw);
-                // }; console.log("yeah!")
-              </script>
-            </div>
+            
     </body>
 </html>

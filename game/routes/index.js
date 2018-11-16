@@ -6,12 +6,13 @@ var mongoose = require('mongoose'); //Adds mongoose as a usable dependency
 
 mongoose.connect('mongodb://localhost/commentDB',{ useNewUrlParser: true }); //Connects to a mongo database called "commentDB"
 
-var scoreSchema = mongoose.Schema({ //Defines the Schema for this database
+var imageSchema = mongoose.Schema({ //Defines the Schema for this database
     Name: String,
-    Score: String
+    UserImage: String,
+    Image: String
 });
 
-var Comment = mongoose.model('Score', scoreSchema); //Makes an object from that schema as a model
+var Image = mongoose.model('Image', imageSchema); //Makes an object from that schema as a model
 
 var db = mongoose.connection; //Saves the connection as a variable to use
 db.on('error', console.error.bind(console, 'connection error:')); //Checks for connection errors
@@ -25,7 +26,7 @@ router.get('/', function(req, res, next) {
 });
 
 /* GET comments from database */
-router.get('/score', function(req, res, next) {
+router.get('/image', function(req, res, next) {
     console.log("In the GET route");
     console.log(req.query);
     var qname=req.query.name;
@@ -33,36 +34,36 @@ router.get('/score', function(req, res, next) {
     if(qname){
       obj={Name:qname};
     }
-    Comment.find(obj, function(err,scoreList) { //Calls the find() method on your database
+    Image.find(obj, function(err,imageList) { //Calls the find() method on your database
       if (err) return console.error(err); //If there's an error, print it out
       else {
-        console.log(scoreList); //Otherwise console log the comments you found
-        res.json(scoreList); //Then send the comments
+        console.log(imageList); //Otherwise console log the comments you found
+        res.json(imageList); //Then send the comments
       }
     })
 });
 
-router.post('/Score', function(req, res, next) {
-    console.log("POST comment route"); 
+router.post('/image', function(req, res, next) {
+    console.log("POST score route"); 
     //console.log(req.body);
-    var newscore = new Score(req.body); 
-    console.log(newscore); 
-    newscore.save(function(err, post) { 
+    var newimage = new Image(req.body); 
+    console.log(newimage); 
+    newimage.save(function(err, post) { 
       if (err) return console.error(err);
       console.log(post);
       res.sendStatus(200);
     });
 });
 
-router.delete('/score', function(req, res, next) {
-    console.log("DELETE comment route"); 
-    Comment.find(function(err,commentList) { //Calls the find() method on your database
+router.delete('/image', function(req, res, next) {
+    console.log("DELETE score route"); 
+    Image.find(function(err,imageList) { //Calls the find() method on your database
       if (err) return console.error(err); //If there's an error, print it out
       else {
-        console.log(commentList); //Otherwise console log the comments you found
-        for(let comment of commentList){
-          console.log(comment);
-          Comment.deleteOne(comment,function(err,obj) {
+        console.log(imageList); //Otherwise console log the comments you found
+        for(var image of imageList){
+          console.log(image);
+          Image.deleteOne(image,function(err,obj) {
             if (err) return console.error(err);
             console.log(obj.result);
           })

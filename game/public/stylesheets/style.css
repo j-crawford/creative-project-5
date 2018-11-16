@@ -1,15 +1,21 @@
 div h1 {
-    font-family: 'Impact';
-    font-size: 72px;
+    font-family: 'Gloria Hallelujah', cursive;
+    font-size: 75px;
     letter-spacing: 5px;
     color: red;
     text-shadow: 5px 5px #000000;
 }
 
-body {
-    font-family: 'Verdana';
-    background-color: rgba(255, 0, 0, 0.0);
+h3 {
+    font-size: 60px;
     color: red;
+}
+
+body {
+    margin-top: -70px;
+    font-family: 'Permanent Marker', cursive;
+    background-color: rgba(255, 0, 0, 0.0);
+    color: white;
 }
 
 a:link, a:visited {
@@ -43,6 +49,7 @@ a:hover, a:active {
     text-decoration: none;
     display: inline-block;
     border-radius: 20px;
+    margin: 20px;
 }
 
 #comments {

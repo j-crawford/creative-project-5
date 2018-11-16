@@ -1,6 +1,9 @@
 angular.module('cats', ['ui.router'])
-  .controller('catCtrl', ['$scope', function($scope){catCtrl($scope)}])
-  .controller('fightCtrl',['$scope', '$document', function($scope, $document){fightCtrl($scope, $document)}])
+  .controller('catCtrl', ['$scope', 'user', function($scope,user){catCtrl($scope,user)}])
+  .controller('fightCtrl',['$scope', '$document', 'user', function($scope, $document, user){fightCtrl($scope, $document, user)}])
+  .factory("user",function(){
+        return {};
+  })
   .config([
       '$stateProvider',
       '$urlRouterProvider',
@@ -31,15 +34,16 @@ angular.module('cats', ['ui.router'])
 };
 
   
-  function catCtrl ($scope) {
-      $scope.user="bob";
-      $scope.userimg="images/cat_5.png";
+  function catCtrl ($scope,user) {
+      $scope.main=user;
+      $scope.main.user="bob";
+      $scope.main.userimg="images/cat_5.png";
       $scope.updatePlayer = function(playerInfo){
           if(notEmpty(playerInfo.name)){
-              $scope.user=playerInfo.name;
+              $scope.main.user=playerInfo.name;
           }
           if(notEmpty(playerInfo.avatar)){
-              $scope.userimg=playerInfo.avatar;
+              $scope.main.userimg=playerInfo.avatar;
           }
       };
       
@@ -47,12 +51,13 @@ angular.module('cats', ['ui.router'])
   
   
   
-  function fightCtrl ($scope, $document) {
+  function fightCtrl ($scope, $document, user) {
+    $scope.main=user;
     getEverything();
     $scope.addImage = function(playerInfo){
       console.log("happened");
           if(notEmpty(playerInfo.avatar)){
-              var myobj = {Name:$scope.user,UserImage:$scope.userimg,Image:playerInfo.avatar};
+              var myobj = {Name:$scope.main.user,UserImage:$scope.main.userimg,Image:playerInfo.avatar};
               var jobj = JSON.stringify(myobj);
               var url = "image";
               $.ajax({

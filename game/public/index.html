@@ -18,12 +18,12 @@
               </div>
                 
                     <form name='userForm' ng-submit='updatePlayer(userForm)'> 
-                    {{user}}
+                    {{main.user}}
                       <input placeholder='Name' ng-model='userForm.name'/> 
                       <input placeholder='user avatar' ng-model='userForm.avatar'/>
                       
                       <button type='submit'>Update Info</button>
-                      <img src='{{userimg}}' style="width:40px; height:40px;" onerror="this.src='images/meh.png'"/>
+                      <img src='{{main.userimg}}' style="width:40px; height:40px;" onerror="this.src='images/meh.png'"/>
                       
                       
                     </form>
@@ -48,8 +48,8 @@
                   
                   <center>
                   <form name='userForm' ng-submit='addImage(userForm)'> 
-                        {{user}}
-                        <img src="{{userimg}}" style="width:40px; height:40px;" onerror="this.src='images/meh.png'"/>
+                        {{main.user}}
+                        <img src="{{main.userimg}}" style="width:40px; height:40px;" onerror="this.src='images/meh.png'"/>
                       <input placeholder='cat picture' ng-model='userForm.avatar'/>
                       
                       <button type='submit'>add cat picture!</button>

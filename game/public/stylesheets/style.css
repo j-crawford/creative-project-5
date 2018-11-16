@@ -45,6 +45,10 @@ a:hover, a:active {
     border-radius: 20px;
 }
 
+#comments {
+    padding: 100px;
+}
+
 .dark{
     color:black;
 }
